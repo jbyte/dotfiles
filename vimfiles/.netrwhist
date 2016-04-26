@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='C:\Users\Jaka Vute\spo\naloga3\trunk\sic\asm\code'
+let g:netrw_dirhist_2='C:\Users\Jaka Vute\Desktop\fri-prev\prg\src\compiler\data'
+let g:netrw_dirhist_3='C:\Users\Jaka Vute\zisApp\zis\users'
+let g:netrw_dirhist_4='C:\Users\Jaka Vute\zisApp\zis\checkup'
+let g:netrw_dirhist_5='C:\Users\Jaka Vute\zisApp\zis\measurements\migrations'
+let g:netrw_dirhist_6='C:/Users/Jaka Vute/zisApp/zis/measurements/migrations'
