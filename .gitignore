@@ -1,5 +1,7 @@
-# ignore plugins
-/vimfiles/bundle/*
+*.swp
+*.swo
 
-# except vundle.vim
-!/vimfiles/bundle/vundle.vim/*
+# ignore plugins except vundle
+#!/bundle/
+*/bundle/*
+!*/bundle/Vundle.vim/
