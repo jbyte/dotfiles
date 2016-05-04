@@ -2,4 +2,4 @@
 /vimfiles/bundle/*
 
 # except vundle.vim
-!/vimfiles/bundle/vundle.vim/
+!/vimfiles/bundle/vundle.vim/*

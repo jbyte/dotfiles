@@ -44,7 +44,9 @@ Plugin 'tpope/vim-surround' 			" surround things with shit
 "Plugin 'vim-scripts/AutoComplPop'		" autocompletion
 "Plugin 'valloric/youcompleteme'         " autocompletion
 Plugin 'msanders/snipmate.vim'          " code snippets
-Plugin 'flazz/vim-colorscheme'          " color schemes
+"Plugin 'flazz/vim-colorschemes'          " color schemes
+"Plugin 'majutsushi/tagbar'              " tags son
+Plugin 'mhinz/vim-signify'              " hunks
 
 
 " Brief help:
@@ -87,7 +89,8 @@ set ttimeoutlen=50
 "set guifont=Droid_Sans_Mono_Slashed_for_Powerline:h10
 set encoding=utf-8
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'lucius'
+"let g:airline_theme = 'lucius'
+let g:airline_theme = 'base16color'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -120,11 +123,22 @@ imap <Down> <NOP>
 imap <Left> <NOP>
 imap <Right> <NOP>
 
+"if !empty("$CONEMUBUILD")
+    "echo "Running in ConEmu"
+    "set termencoding=utf8
+    "set term=xterm
+    "set t_Co=256
+    "let &t_AB="\e[48;5;%dm"
+    "let &t_AF="\e[38;5;%dm"
+    "colorscheme badwolf
+"endif
+
 " ene par uporabnih nastavitev
 let mapleader=","
 "colorscheme torte
-colorscheme badwolf
+"colorscheme badwolf
 "set mouse=
+"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set nowrap
 set tabstop=4
 set softtabstop=4
@@ -188,6 +202,9 @@ autocmd BufReadPost *
   \ 	exe "normal! g`\"" |
   \ endif
 set viminfo^=%
+
+" toggle spell checking
+nmap <silent> <leader>s :set spell!<CR>
 
 " remove trailing whitespace on write (for c,c++,java,php,python files)
 autocmd FileType c,cpp,java,php,python autocmd BufWritePre <buffer> :%s/\s\+$//e
