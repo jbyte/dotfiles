@@ -8,6 +8,8 @@ alias la="ls --color -a"
 alias eb="vim ~/.bashrc"
 alias sb="source ~/.bashrc"
 
+alias pg_start="/c/Program\ FIles/postgreSQL/9.5/bin/pg_ctl.exe start -D /c/Program\ Files/postgreSQL/9.5/data"
+
 ### GIT PROMPT CONFIGS
 
 # Set config variables first
@@ -77,3 +79,7 @@ PS1+="\$(git_branch) "
 PS1+="\[$COLOR_BLUE\]\$\[$COLOR_RESET\] "
 
 export PS1
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/c/Users/Jaka Vute/.sdkman"
+[[ -s "/c/Users/Jaka Vute/.sdkman/bin/sdkman-init.sh" ]] && source "/c/Users/Jaka Vute/.sdkman/bin/sdkman-init.sh"

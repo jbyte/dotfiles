@@ -34,7 +34,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'ctrlpvim/ctrlp.vim'				" fuzzy search
 Plugin 'scrooloose/nerdcommenter'		" easy commenting
 Plugin 'vim-airline/vim-airline'		" fancy status line
-Plugin 'bling/vim-bufferline'			" buffer list in status line
+"Plugin 'bling/vim-bufferline'			" buffer list in status line
 Plugin 'vim-airline/vim-airline-themes'	" status line themes
 "Plugin 'ervandew/supertab'				" use tab for autocompletion
 "Plugin 'scrooloose/nerdtree' 			" filesystem explorer
@@ -44,9 +44,11 @@ Plugin 'tpope/vim-surround' 			" surround things with shit
 "Plugin 'vim-scripts/AutoComplPop'		" autocompletion
 "Plugin 'valloric/youcompleteme'         " autocompletion
 Plugin 'msanders/snipmate.vim'          " code snippets
-"Plugin 'flazz/vim-colorschemes'          " color schemes
+Plugin 'flazz/vim-colorschemes'          " color schemes
 "Plugin 'majutsushi/tagbar'              " tags son
 Plugin 'mhinz/vim-signify'              " hunks
+Plugin 'rust-lang/rust.vim'             " rust filetype detection, syntax highlighting, ...
+Plugin 'derekwyatt/vim-scala'           " scala filetype detection, syntax highlighting, ...
 
 
 " Brief help:
@@ -133,12 +135,24 @@ imap <Right> <NOP>
     "colorscheme badwolf
 "endif
 
+let g:netrw_liststyle= 1
+
 " ene par uporabnih nastavitev
 let mapleader=","
 "colorscheme torte
 "colorscheme badwolf
 "set mouse=
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+if has('gui_running')
+    colorscheme solarized
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
+    set guifont=Consolas:h10
+    let g:airline_theme = 'solarized'
+endif
 set nowrap
 set tabstop=4
 set softtabstop=4
@@ -161,11 +175,11 @@ set visualbell
 set noerrorbells
 set wildmenu
 set cmdheight=2
-"set lazyredraw
+set lazyredraw
 set magic
 "set guicursor=n-v-c:block-Cursor
 set mat=2
-set background=light
+"set background=dark
 set foldenable
 set foldlevelstart=7
 set foldnestmax=10
@@ -173,6 +187,8 @@ set foldmethod=indent
 set cursorline
 set ff=unix
 set cpoptions+=$
+set splitright
+set splitbelow
 
 syntax enable
 
@@ -182,6 +198,10 @@ syntax enable
 
 nnoremap <Space> za
 nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
+nnoremap K i<CR><ESC>
+nnoremap _ :Explore<CR>
+nnoremap <leader>ds :Hexplore<CR>
+nnoremap <leader>dv :Vexplore<CR>
 
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
@@ -253,13 +273,17 @@ call matchadd('ColorColumn','\%101v',100)
 highlight Visual ctermfg=Black ctermbg=DarkYellow
 
 " oznaci trnutno vrstico
-highlight CursorLine term=bold cterm=standout ctermbg=17
-highlight Cursor cterm=none ctermbg=White ctermfg=Black
+"highlight CursorLine term=bold cterm=standout ctermbg=17
+"highlight Cursor cterm=none ctermbg=White ctermfg=Black
+
+" highlight spell checking
+highlight clear SpellBad
+highlight SpellBad cterm=bold ctermbg=White ctermfg=Red
 
 "auto-save on focus lost
 :au FocusLost * silent! wa
 
-" match paranthesis/brackets
+" match parenthesis/brackets
 set showmatch
 
 " se ene par random zadevc k znajo pomagar
@@ -301,7 +325,8 @@ function! MyDiff()
       let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
     endif
   else
-    let cmd = $VIMRUNTIME . '\diff'
+    "let cmd = $VIMRUNTIME . '\diff'
+    let cmd = '/usr/bin/diff'
   endif
   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
   if exists('l:shxq_sav')
