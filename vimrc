@@ -48,6 +48,7 @@ set nocompatible
 
 filetype off
 
+" TODO: replace VUNDLE with vim-plug
 " VUNDLE PLUGINS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " set the runtime path to include Vundle and initialize
@@ -78,17 +79,17 @@ Plugin 'VundleVim/Vundle.vim'
 " different version somewhere else:
 " Plugin 'user/repo', {'name': 'newName'}
 
-Plugin 'ctrlpvim/ctrlp.vim'				    " fuzzy search
-Plugin 'scrooloose/nerdcommenter'		    " easy commenting
-Plugin 'vim-airline/vim-airline'		    " fancy status line
-"Plugin 'bling/vim-bufferline'			    " buffer list in status line
-Plugin 'vim-airline/vim-airline-themes'	    " status line themes
-"Plugin 'ervandew/supertab'				    " use tab for autocompletion
-"Plugin 'scrooloose/nerdtree' 			    " filesystem explorer
-Plugin 'tpope/vim-fugitive' 			    " git wrapper
-"Plugin 'airblade/vim-gitgutter' 		    " git diff in the sign column
-Plugin 'tpope/vim-surround' 			    " surround things with shit
-"Plugin 'vim-scripts/AutoComplPop'		    " autocompletion
+Plugin 'ctrlpvim/ctrlp.vim'                 " fuzzy search
+Plugin 'scrooloose/nerdcommenter'           " easy commenting
+Plugin 'vim-airline/vim-airline'            " fancy status line
+"Plugin 'bling/vim-bufferline'              " buffer list in status line
+Plugin 'vim-airline/vim-airline-themes'     " status line themes
+"Plugin 'ervandew/supertab'                 " use tab for autocompletion
+"Plugin 'scrooloose/nerdtree'               " filesystem explorer
+Plugin 'tpope/vim-fugitive'                 " git wrapper
+"Plugin 'airblade/vim-gitgutter'            " git diff in the sign column
+Plugin 'tpope/vim-surround'                 " surround things with shit
+"Plugin 'vim-scripts/AutoComplPop'          " autocompletion
 "Plugin 'valloric/youcompleteme'            " autocompletion
 Plugin 'msanders/snipmate.vim'              " code snippets
 Plugin 'flazz/vim-colorschemes'             " color schemes
@@ -96,13 +97,15 @@ Plugin 'flazz/vim-colorschemes'             " color schemes
 Plugin 'mhinz/vim-signify'                  " hunks
 Plugin 'rust-lang/rust.vim'                 " rust filetype detection, syntax highlighting, ...
 Plugin 'derekwyatt/vim-scala'               " scala filetype detection, syntax highlighting, ...
+Plugin 'rakr/vim-one'                       " one colorscheme
+Plugin 'gummesson/stereokai.vim'            " stereokai colorscheme
 
 
 " Brief help:
-" :PluginList			- lists configured plugins
-" :PluginInstall		- installs plugins; append '!' to update or just :PluginUpdate
-" :PluginSearch foo		- searches for foo; append '!' to refresh cache
-" :PluginClean			- confirms removal of unused plugins; append '!' to auto-approve removal
+" :PluginList           - lists configured plugins
+" :PluginInstall        - installs plugins; append '!' to update or just :PluginUpdate
+" :PluginSearch foo     - searches for foo; append '!' to refresh cache
+" :PluginClean          - confirms removal of unused plugins; append '!' to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
 
@@ -136,7 +139,7 @@ set ttimeoutlen=50
 set encoding=utf-8
 let g:airline_powerline_fonts = 1
 "let g:airline_theme = 'lucius'
-let g:airline_theme = 'base16color'
+"let g:airline_theme = 'base16color'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -176,14 +179,14 @@ syntax enable
 
 " gVim settings
 if has('gui_running')
-    colorscheme solarized
+    colorscheme one
     set guioptions-=m
     set guioptions-=T
     set guioptions-=r
     set guioptions-=L
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
-    set guifont=Consolas:h10
-    let g:airline_theme = 'light'
+    set guifont=Consolas:h9
+    let g:airline_theme = 'one'
 endif
 
 " dont wrap long lines
@@ -255,7 +258,7 @@ endtry
 " TODO: remember why I have this
 autocmd BufReadPost *
   \ if line("'\"")>0 && line("'\"") <= line("$") |
-  \ 	exe "normal! g`\"" |
+  \     exe "normal! g`\"" |
   \ endif
 
 " set relative line number in normal mode and absolute in insert mode
@@ -300,6 +303,7 @@ nnoremap K i<CR><ESC>
 nnoremap _ :Explore<CR>
 nnoremap <leader>ds :Hexplore<CR>
 nnoremap <leader>dv :Vexplore<CR>
+nnoremap <leader>dt :Texplore<CR>
 
 " toggle spell checking
 nmap <silent> <leader>s :set spell!<CR>
