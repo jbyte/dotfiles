@@ -182,8 +182,10 @@ set title
 set visualbell
 " disable defening sound on error
 set noerrorbells
-" TODO: remember why i have this
+" command line <tab> autocmpletion
 set wildmenu
+set wildchar=<TAB>
+set wildmode=list:longest,full
 " two line command line
 set cmdheight=2
 set lazyredraw
@@ -307,13 +309,6 @@ highlight LineNr term=bold cterm=bold ctermfg=DarkGrey ctermbg=NONE gui=NONE gui
 highlight CursorLineNr term=NONE cterm=NONE ctermfg=Red ctermbg=NONE gui=NONE guifg=Red guibg=NONE
 highlight Comment term=NONE cterm=bold ctermfg=Green
 highlight Search term=NONE cterm=bold ctermbg=Red
-
-" cursor highlighting TODO: do I need this?
-highlight Cursor ctermfg=White ctermbg=Black
-let &t_ti.="\e[1 q"
-let &t_SI.="\e[5 q"
-let &t_EI.="\e[1 q"
-let &t_te.="\e[0 q"
 
 " color if column exceeds 100 characters
 highlight ColorColumn ctermbg=LightRed guibg=Red guifg=Black
