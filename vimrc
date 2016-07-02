@@ -182,8 +182,10 @@ set title
 set visualbell
 " disable defening sound on error
 set noerrorbells
-" TODO: remember why i have this
+" command line <tab> autocmpletion
 set wildmenu
+set wildchar=<TAB>
+set wildmode=list:longest,full
 " two line command line
 set cmdheight=2
 set lazyredraw
