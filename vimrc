@@ -1,3 +1,4 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MIT License
 "
 " Copyright (c) 2016 Jaka Vute
@@ -44,75 +45,41 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set nocompatible
-"set runtimepath='$HOME/'
+set runtimepath='$HOME/'
 
-filetype off
+" automatcly load vim-plug if non-existent
+if empty(glob('$HOME/vimfiles/autoload/plug.vim'))
+    silent !curl -fLo $HOME/vimfiles/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
-" TODO: replace VUNDLE with vim-plug
-" VUNDLE PLUGINS
+" VIM-PLUG PLUGINS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set the runtime path to include Vundle and initialize
-set rtp+=$HOME/vimfiles/bundle/Vundle.vim
-call vundle#begin('$HOME/vimfiles/bundle/')
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
+call plug#begin('$HOME/vimfiles/bundle/')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plug 'ctrlpvim/ctrlp.vim'                 " fuzzy search
+Plug 'scrooloose/nerdcommenter'           " easy commenting
+Plug 'vim-airline/vim-airline'            " fancy status line
+Plug 'vim-airline/vim-airline-themes'     " status line themes
+Plug 'tpope/vim-fugitive'                 " git wrapper
+Plug 'tpope/vim-surround'                 " surround things with shit
+Plug 'msanders/snipmate.vim'              " code snippets
+Plug 'flazz/vim-colorschemes'             " color schemes
+Plug 'mhinz/vim-signify'                  " hunks
+Plug 'rust-lang/rust.vim'                 " rust filetype detection, syntax highlighting, ...
+Plug 'derekwyatt/vim-scala'               " scala filetype detection, syntax highlighting, ...
+Plug 'rakr/vim-one'                       " one colorscheme
+Plug 'gummesson/stereokai.vim'            " stereokai colorscheme
 
-" 1. plugin on github:
-" Plugin 'user/repo'
-" --------------------
-" 2. plugin from http://vim-scripts.org/vim/scripts.html:
-" Plugin 'plugin name'
-" --------------------
-" 3. git plugin not hosted on github:
-" Plugin 'git://git-host.tld/repo.git'
-" --------------------
-" 4. git repos on your machine (i.e. when working on your own plugin):
-" Plugin 'file:///home/path/to/plugin'
-" --------------------
-" 5. vim script in a subdirectory of Vundel.vim called vim:
-" Plugin 'user/repo', {'rtp','vim/'}
-" --------------------
-" 6. install and avoid naming conflicts if you've already installed a
-" different version somewhere else:
-" Plugin 'user/repo', {'name': 'newName'}
-
-Plugin 'ctrlpvim/ctrlp.vim'                 " fuzzy search
-Plugin 'scrooloose/nerdcommenter'           " easy commenting
-Plugin 'vim-airline/vim-airline'            " fancy status line
-"Plugin 'bling/vim-bufferline'              " buffer list in status line
-Plugin 'vim-airline/vim-airline-themes'     " status line themes
-"Plugin 'ervandew/supertab'                 " use tab for autocompletion
-"Plugin 'scrooloose/nerdtree'               " filesystem explorer
-Plugin 'tpope/vim-fugitive'                 " git wrapper
-"Plugin 'airblade/vim-gitgutter'            " git diff in the sign column
-Plugin 'tpope/vim-surround'                 " surround things with shit
+"Plugin 'majutsushi/tagbar'                 " tags son
 "Plugin 'vim-scripts/AutoComplPop'          " autocompletion
 "Plugin 'valloric/youcompleteme'            " autocompletion
-Plugin 'msanders/snipmate.vim'              " code snippets
-Plugin 'flazz/vim-colorschemes'             " color schemes
-"Plugin 'majutsushi/tagbar'                 " tags son
-Plugin 'mhinz/vim-signify'                  " hunks
-Plugin 'rust-lang/rust.vim'                 " rust filetype detection, syntax highlighting, ...
-Plugin 'derekwyatt/vim-scala'               " scala filetype detection, syntax highlighting, ...
-Plugin 'rakr/vim-one'                       " one colorscheme
-Plugin 'gummesson/stereokai.vim'            " stereokai colorscheme
+"Plugin 'airblade/vim-gitgutter'            " git diff in the sign column
+"Plugin 'ervandew/supertab'                 " use tab for autocompletion
+"Plugin 'scrooloose/nerdtree'               " filesystem explorer
+"Plugin 'bling/vim-bufferline'              " buffer list in status line
 
-
-" Brief help:
-" :PluginList           - lists configured plugins
-" :PluginInstall        - installs plugins; append '!' to update or just :PluginUpdate
-" :PluginSearch foo     - searches for foo; append '!' to refresh cache
-" :PluginClean          - confirms removal of unused plugins; append '!' to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-
-" all of your plugins must be added before this line
-call vundle#end()
-filetype plugin indent on
-filetype plugin on
+call plug#end()
 
 " PLUGIN SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
