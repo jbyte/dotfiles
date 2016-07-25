@@ -28,6 +28,7 @@
 " PLUGIN SETTINGS
 " - CtrlP settings
 " - Airline settings
+" - Syntastic settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ENVIRONMENT/EDITOR SETTINGS
 " - set ...
@@ -45,17 +46,17 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set nocompatible
-set runtimepath='$HOME/'
+"set runtimepath='$HOME/.vim/'
 
 " automatcly load vim-plug if non-existent
-if empty(glob('$HOME/vimfiles/autoload/plug.vim'))
-    silent !curl -fLo $HOME/vimfiles/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if empty(glob('$HOME/.vim/autoload/plug.vim'))
+    silent !sudo curl -fLo $HOME./vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
 " VIM-PLUG PLUGINS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin('$HOME/vimfiles/bundle/')
+call plug#begin('$HOME/.vim/bundle/')
 
 Plug 'ctrlpvim/ctrlp.vim'                 " fuzzy search
 Plug 'scrooloose/nerdcommenter'           " easy commenting
@@ -70,6 +71,7 @@ Plug 'rust-lang/rust.vim'                 " rust filetype detection, syntax high
 Plug 'derekwyatt/vim-scala'               " scala filetype detection, syntax highlighting, ...
 Plug 'rakr/vim-one'                       " one colorscheme
 Plug 'gummesson/stereokai.vim'            " stereokai colorscheme
+Plug 'scrooloose/syntastic'               " syntax checking
 
 "Plugin 'majutsushi/tagbar'                 " tags son
 "Plugin 'vim-scripts/AutoComplPop'          " autocompletion
@@ -128,6 +130,17 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
+
+" Syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " ENVIRONMENT/EDITOR SETTINGS
@@ -140,9 +153,22 @@ let mapleader=","
 "source $VIMRUNTIME/vimrc_example.vim
 "source $VIMRUNTIME/mswin.vim
 " work on windows
-behave mswin
+"behave mswin
 
+" set netrw line numbers
+let g:netrw_bufsettings = 'noma nomod nonu nobl nowrap ro'
+
+" omni complete
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+set completefunc=syntaxcomplete#Complete
+autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+autocmd Filetype java setlocal completefunc=javacomplete#CompleteParamsInfo
+" set complete when spellchecking is enabled
+set complete=.,w,b,u,t,i,kspell
 syntax enable
+" default dark background
+set background=dark
 
 " gVim settings
 if has('gui_running')
@@ -151,8 +177,7 @@ if has('gui_running')
     set guioptions-=T
     set guioptions-=r
     set guioptions-=L
-    "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h11
-    set guifont=Consolas:h9
+    set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
     let g:airline_theme = 'one'
 endif
 
@@ -211,7 +236,7 @@ set viminfo^=%
 set scrolloff=7
 
 " set netwr default view as ll
-let g:netrw_liststyle= 1
+let g:netrw_liststyle= 3
 
 " TODO: remember why I have this
 try
@@ -278,7 +303,7 @@ nnoremap <leader>dt :Texplore<CR>
 nmap <silent> <leader>s :set spell!<CR>
 
 " ene par 'shortcutov' za urejanje tega file-a
-nmap <silent> <leader>ev :e $HOME/_vimrc<CR>
+nmap <silent> <leader>ev :e $HOME/.vimrc<CR>
 "nmap <silent> <leader>ev :e /c/users/jaka vute/_vimrc<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<cr>
 

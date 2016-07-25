@@ -4,8 +4,7 @@
 #test -f ~/.profile && . ~/.profile
 #test -f ~/.bashrc && . ~/.bashrc
 
-source ~/.bashrc
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/c/Users/Jaka Vute/.sdkman"
-[[ -s "/c/Users/Jaka Vute/.sdkman/bin/sdkman-init.sh" ]] && source "/c/Users/Jaka Vute/.sdkman/bin/sdkman-init.sh"
+source ~/.bashrc
