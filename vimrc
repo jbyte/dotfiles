@@ -291,6 +291,9 @@ map <leader>rt : retab!<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " - normal mode mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" toggle uppercase on word
+nnoremap <leader>u mmg~iw`m
+
 nnoremap <Space> za
 nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
 nnoremap K i<CR><ESC>
