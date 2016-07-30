@@ -72,6 +72,13 @@ Plug 'derekwyatt/vim-scala'               " scala filetype detection, syntax hig
 Plug 'rakr/vim-one'                       " one colorscheme
 Plug 'gummesson/stereokai.vim'            " stereokai colorscheme
 Plug 'scrooloose/syntastic'               " syntax checking
+Plug 'KabbAmine/zeavim.vim', {'on': [
+            \ 'Zeavim',
+            \ '<Plug>Zeavim',
+            \ '<Plug>ZVVisSelection',
+            \ '<Plug>ZVKeyDocset',
+            \ '<Plug>ZVMotion'
+            \ ]}
 
 "Plugin 'majutsushi/tagbar'                 " tags son
 "Plugin 'vim-scripts/AutoComplPop'          " autocompletion
@@ -132,9 +139,9 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
 " Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -156,7 +163,7 @@ let mapleader=","
 "behave mswin
 
 " set netrw line numbers
-let g:netrw_bufsettings = 'noma nomod nonu nobl nowrap ro'
+let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " omni complete
 filetype plugin on
@@ -235,10 +242,10 @@ set relativenumber number
 set viminfo^=%
 set scrolloff=7
 
-" set netwr default view as ll
+" set netwr default view as tree
 let g:netrw_liststyle= 3
 
-" TODO: remember why I have this
+" buffer switching settings
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
@@ -249,7 +256,8 @@ endtry
 " - autocmd ...
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" TODO: remember why I have this
+" when opening a file sets cursor at the position where you closed it or at
+" the start if first time opening
 autocmd BufReadPost *
   \ if line("'\"")>0 && line("'\"") <= line("$") |
   \     exe "normal! g`\"" |
@@ -347,13 +355,80 @@ highlight Visual ctermfg=Black ctermbg=DarkYellow
 
 " highlight spell checking
 highlight clear SpellBad
-highlight SpellBad cterm=bold ctermbg=White ctermfg=Red
+highlight SpellBad cterm=bold ctermbg=White ctermfg=Red gui=undercurl
 
 
 " highlighting the invisible characters
 hi NonText ctermfg=DarkGrey
 hi SpecialKey ctermfg=DarkGrey
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: move to the mapping part of the vimrc
+nnoremap <leader>gg :call Getter()<CR>
+nnoremap <leader>ss :call Setter()<CR>
+vnoremap <leader>gg :call Getter()<CR>
+vnoremap <leader>ss :call Setter()<CR>
+
+function! Getter()
+    call GetSet('get')
+endfunction
+
+function! Setter()
+    call GetSet('set')
+endfunction
+
+" TODO: better function name
+function! GetSet(getset)
+    if &filetype == 'java'
+        let l:pos = getpos('.')
+
+        let l:id = GetId()
+        let l:type = GetType()
+        let l:paste = GetPaste()
+        if a:getset == 'get'
+            let l:stmt = 'return ' . l:id . ';'
+            let l:arg = ''
+        else
+            let l:stmt = 'this.' . l:id . ' = ' . l:id . ';'
+            let l:arg = l:type . ' ' . l:id
+        endif
+
+        let l:paste = substitute(l:paste, '%type', l:type, '')
+        let l:paste = substitute(l:paste, '%id', a:getset . toupper(l:id[0]) . l:id[1:], '')
+        let l:paste = substitute(l:paste, '%arg', l:arg, '')
+        let l:paste = substitute(l:paste, '%stmt', l:stmt, '')
+
+        call PrintStmt(l:paste)
+
+        call setpos('.', l:pos)
+    endif
+endfunction
+
+function! GetId()
+    normal! ^f;B
+    return expand('<cword>')
+endfunction
+
+function! GetType()
+    normal! ^f;gE
+    return expand('<cword>')
+endfunction
+
+function! GetPaste()
+    return "\npublic %type %id(%arg){\n%stmt\n}"
+endfunction
+
+function! PrintStmt(stmt)
+    let @t = a:stmt
+
+    call search('class')
+    normal! $%O
+    normal! "tp
+
+    normal! =G
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
