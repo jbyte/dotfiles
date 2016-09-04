@@ -79,6 +79,8 @@ Plug 'KabbAmine/zeavim.vim', {'on': [
             \ '<Plug>ZVKeyDocset',
             \ '<Plug>ZVMotion'
             \ ]}
+Plug 'jwalton512/vim-blade'               " blade syntax, indent, ftdetect, ...
+Plug 'othree/html5.vim'                   " html5 syntax and omnicompletion
 
 "Plugin 'majutsushi/tagbar'                 " tags son
 "Plugin 'vim-scripts/AutoComplPop'          " autocompletion
@@ -169,13 +171,14 @@ let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
-autocmd Filetype java setlocal omnifunc=javacomplete#Complete
-autocmd Filetype java setlocal completefunc=javacomplete#CompleteParamsInfo
+"autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+"autocmd Filetype java setlocal completefunc=javacomplete#CompleteParamsInfo
 " set complete when spellchecking is enabled
 set complete=.,w,b,u,t,i,kspell
 syntax enable
 " default dark background
-set background=dark
+"set background=dark
+colorscheme badwolf
 
 " gVim settings
 if has('gui_running')
@@ -243,7 +246,7 @@ set viminfo^=%
 set scrolloff=7
 
 " set netwr default view as tree
-let g:netrw_liststyle= 3
+let g:netrw_liststyle= 1
 
 " buffer switching settings
 try
@@ -272,6 +275,9 @@ autocmd InsertLeave * :set number relativenumber
 
 " remove trailing whitespace on write (for c,c++,java,php,python files)
 autocmd FileType c,cpp,java,php,python autocmd BufWritePre <buffer> :%s/\s\+$//e
+"autocmd BufRead,BufNewFile *.php set ft=php.html
+"autocmd BufRead,BufNewFile *.blade.php set ft=blade.php.html
+"autocmd BufRead,BufNewFile *.blade.php let b:syntastic_disabled_tiletypes=['html']
 
 " MAPPINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -299,8 +305,16 @@ map <leader>rt : retab!<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " - normal mode mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" extra mapping for CtrlP
+nnoremap <leader>b :CtrlPBuffer<CR>
 " toggle uppercase on word
 nnoremap <leader>u mmg~iw`m
+
+" make Y bahave like D and C
+nnoremap Y y$
+
+" map enter key to make a new line in normal mode
+nnoremap <CR> o<ESC>
 
 nnoremap <Space> za
 nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
@@ -318,8 +332,9 @@ nmap <silent> <leader>ev :e $HOME/.vimrc<CR>
 "nmap <silent> <leader>ev :e /c/users/jaka vute/_vimrc<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<cr>
 
-nnoremap <C-c> :noh<cr>
+"nnoremap <C-c> :noh<cr>
 
+nnoremap <leader>Z :Zeavim<CR>
 " toggle invisible characters (tab, EOL)
 nmap <leader>l :set list!<CR>
 
@@ -343,7 +358,7 @@ imap <Right> <NOP>
 " par nastavitev za setvilcenje vrstic
 highlight LineNr term=bold cterm=bold ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
 highlight CursorLineNr term=NONE cterm=NONE ctermfg=Red ctermbg=NONE gui=NONE guifg=Red guibg=NONE
-highlight Comment term=NONE cterm=bold ctermfg=Green
+"highlight Comment term=NONE cterm=bold ctermfg=Green
 highlight Search term=NONE cterm=bold ctermbg=Red
 
 " color if column exceeds 100 characters
@@ -395,7 +410,11 @@ function! GetSet(getset)
             let l:arg = l:type . ' ' . l:id
         endif
 
-        let l:paste = substitute(l:paste, '%type', l:type, '')
+        if a:getset == 'get'
+            let l:paste = substitute(l:paste, '%type', l:type, '')
+        else
+            let l:paste = substitute(l:paste, '%type', 'void', '')
+        endif
         let l:paste = substitute(l:paste, '%id', a:getset . toupper(l:id[0]) . l:id[1:], '')
         let l:paste = substitute(l:paste, '%arg', l:arg, '')
         let l:paste = substitute(l:paste, '%stmt', l:stmt, '')
@@ -429,6 +448,7 @@ function! PrintStmt(stmt)
 
     normal! =G
 endfunction
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

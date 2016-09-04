@@ -81,3 +81,6 @@ PS1+="\$(git_branch) "
 PS1+="\[$COLOR_BLUE\]\$\[$COLOR_RESET\] "
 
 export PS1
+
+# added by travis gem
+[ -f /home/jbyte/.travis/travis.sh ] && source /home/jbyte/.travis/travis.sh
