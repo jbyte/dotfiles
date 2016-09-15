@@ -84,3 +84,5 @@ export PS1
 
 # added by travis gem
 [ -f /home/jbyte/.travis/travis.sh ] && source /home/jbyte/.travis/travis.sh
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -47,6 +47,8 @@ alias gd="git diff"
 alias gdt="git difftool"
 alias gm="git merge"
 alias gmt="git mergetool"
+alias gps="git push"
+alias gpl="git pull"
 
 
 ### EXPORTS
@@ -79,3 +81,6 @@ connect-wifi(){
 
 # added by travis gem
 [ -f /home/jbyte/.travis/travis.sh ] && source /home/jbyte/.travis/travis.sh
+
+# load source for fzf fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

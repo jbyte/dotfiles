@@ -23,7 +23,7 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" VUNDLE PLUGINS
+" PLUGINS (currently managed by vim-plug)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGIN SETTINGS
 " - CtrlP settings
@@ -81,6 +81,7 @@ Plug 'KabbAmine/zeavim.vim', {'on': [
             \ ]}
 Plug 'jwalton512/vim-blade'               " blade syntax, indent, ftdetect, ...
 Plug 'othree/html5.vim'                   " html5 syntax and omnicompletion
+Plug 'hsanson/vim-android'                " gradle things
 
 "Plugin 'majutsushi/tagbar'                 " tags son
 "Plugin 'vim-scripts/AutoComplPop'          " autocompletion
@@ -229,7 +230,7 @@ set magic
 set mat=2
 " default fold settings
 set foldenable
-set foldlevelstart=7
+set foldlevelstart=1
 set foldnestmax=10
 set foldmethod=indent
 " different highlight in cursor line
