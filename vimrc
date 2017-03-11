@@ -58,30 +58,32 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('$HOME/.vim/bundle/')
 
+Plug 'KabbAmine/zeavim.vim', {'on': [
+            \ '<Plug>ZVKeyDocset',
+            \ '<Plug>ZVMotion',
+            \ '<Plug>ZVVisSelection',
+            \ '<Plug>Zeavim',
+            \ 'Zeavim'
+            \ ]}
+Plug 'christoomey/vim-tmux-navigator'     " unified navigation for vim and tmux
 Plug 'ctrlpvim/ctrlp.vim'                 " fuzzy search
+Plug 'derekwyatt/vim-scala'               " scala filetype detection, syntax highlighting, ...
+Plug 'flazz/vim-colorschemes'             " color schemes
+Plug 'gummesson/stereokai.vim'            " stereokai colorscheme
+Plug 'hsanson/vim-android'                " gradle things
+Plug 'jwalton512/vim-blade'               " blade syntax, indent, ftdetect, ...
+Plug 'mhinz/vim-signify'                  " hunks
+Plug 'msanders/snipmate.vim'              " code snippets
+Plug 'othree/html5.vim'                   " html5 syntax and omnicompletion
+Plug 'rakr/vim-one'                       " one colorscheme
+Plug 'rust-lang/rust.vim'                 " rust filetype detection, syntax highlighting, ...
 Plug 'scrooloose/nerdcommenter'           " easy commenting
-Plug 'vim-airline/vim-airline'            " fancy status line
-Plug 'vim-airline/vim-airline-themes'     " status line themes
+"Plug 'scrooloose/syntastic'               " syntax checking
 Plug 'tpope/vim-fugitive'                 " git wrapper
 Plug 'tpope/vim-surround'                 " surround things with shit
-Plug 'msanders/snipmate.vim'              " code snippets
-Plug 'flazz/vim-colorschemes'             " color schemes
-Plug 'mhinz/vim-signify'                  " hunks
-Plug 'rust-lang/rust.vim'                 " rust filetype detection, syntax highlighting, ...
-Plug 'derekwyatt/vim-scala'               " scala filetype detection, syntax highlighting, ...
-Plug 'rakr/vim-one'                       " one colorscheme
-Plug 'gummesson/stereokai.vim'            " stereokai colorscheme
-Plug 'scrooloose/syntastic'               " syntax checking
-Plug 'KabbAmine/zeavim.vim', {'on': [
-            \ 'Zeavim',
-            \ '<Plug>Zeavim',
-            \ '<Plug>ZVVisSelection',
-            \ '<Plug>ZVKeyDocset',
-            \ '<Plug>ZVMotion'
-            \ ]}
-Plug 'jwalton512/vim-blade'               " blade syntax, indent, ftdetect, ...
-Plug 'othree/html5.vim'                   " html5 syntax and omnicompletion
-Plug 'hsanson/vim-android'                " gradle things
+Plug 'vim-airline/vim-airline'            " fancy status line
+Plug 'vim-airline/vim-airline-themes'     " status line themes
+Plug 'Scuilion/gradle-syntastic-plugin'   " make syntastic play nice with gradle
 
 "Plugin 'majutsushi/tagbar'                 " tags son
 "Plugin 'vim-scripts/AutoComplPop'          " autocompletion
@@ -96,26 +98,27 @@ call plug#end()
 " PLUGIN SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" settings for vim-android
+" TODO: find out if needed
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " settings for CtrlP
-" ------------------------------------------
 " default mapping/command to invoke CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 " default working directory
 let g:ctrlp_working_path_mode = 'rac'
 " exclude files using vim's wildignore
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*.pdf,*.bak,*.pyc,*.class,*.o,*.gz
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*.pdf,*.bak,*.pyc,*.o,*.gz
 " exclude files unsing CtrlP's own g:ctrlp_custom_ignore
 " (if a custom listing command is being used, excusions are ignored)
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" -------------------------------------------
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " settings for airline
 set laststatus=2
 set ttimeoutlen=50
 "set guifont=Droid_Sans_Mono_Slashed_for_Powerline:h10
-set encoding=utf-8
+"set encoding=utf-8
 let g:airline_powerline_fonts = 1
 "let g:airline_theme = 'lucius'
 "let g:airline_theme = 'base16color'
@@ -141,6 +144,11 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
+" gradle/android status
+call airline#parts#define_function('vim-gradle-status', 'gradle#statusLine')
+let g_airline_section_x= airline#section#create_right(['tagbar', 'filetype', 'vim-gradle-status'])
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntastic settings
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
@@ -164,6 +172,7 @@ let mapleader=","
 "source $VIMRUNTIME/mswin.vim
 " work on windows
 "behave mswin
+set noswapfile
 
 " set netrw line numbers
 let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
@@ -172,17 +181,16 @@ let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
-"autocmd Filetype java setlocal omnifunc=javacomplete#Complete
-"autocmd Filetype java setlocal completefunc=javacomplete#CompleteParamsInfo
 " set complete when spellchecking is enabled
 set complete=.,w,b,u,t,i,kspell
 syntax enable
 " default dark background
 "set background=dark
-colorscheme badwolf
+"colorscheme badwolf
 
 " gVim settings
 if has('gui_running')
+    set background=dark
     colorscheme one
     set guioptions-=m
     set guioptions-=T
@@ -193,7 +201,9 @@ if has('gui_running')
 endif
 
 " dont wrap long lines
-set nowrap
+"set nowrap
+" dont have a spasm when switching from a modified buffer
+set hidden
 " use spaces when using the tab key
 set tabstop=4
 set softtabstop=4
@@ -229,10 +239,10 @@ set lazyredraw
 set magic
 set mat=2
 " default fold settings
-set foldenable
-set foldlevelstart=1
-set foldnestmax=10
-set foldmethod=indent
+"set foldenable
+"set foldlevelstart=1
+"set foldnestmax=10
+"set foldmethod=indent
 " different highlight in cursor line
 set cursorline
 " set unix style line endings (LF not CRLF)
@@ -318,7 +328,7 @@ nnoremap Y y$
 nnoremap <CR> o<ESC>
 
 nnoremap <Space> za
-nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
+nnoremap <silent> <leader>, :nohlsearch<Bar>:echo<CR>
 nnoremap K i<CR><ESC>
 nnoremap _ :Explore<CR>
 nnoremap <leader>ds :Hexplore<CR>
@@ -328,7 +338,7 @@ nnoremap <leader>dt :Texplore<CR>
 " toggle spell checking
 nmap <silent> <leader>s :set spell!<CR>
 
-" ene par 'shortcutov' za urejanje tega file-a
+" set the shortcut for easy opening and saving of this file
 nmap <silent> <leader>ev :e $HOME/.vimrc<CR>
 "nmap <silent> <leader>ev :e /c/users/jaka vute/_vimrc<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<cr>
