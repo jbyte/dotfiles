@@ -300,6 +300,8 @@ you should place your code here."
   ;; set keybinding for doc creation php-mode
   (spacemacs/set-leader-keys-for-major-mode
     "php-mode" "dc" 'jbyte/php-insert-doc)
+  (spacemacs/set-leader-keys-for-major-mode
+    "php-mode" "p" 'jbyte/php-pretty-print)
 
   ;; setup custom todo keywords
   (setq org-todo-keywords '((sequence "TODO" "WAITING" "|" "CANCLED" "DONE")))
@@ -349,6 +351,15 @@ you should place your code here."
   (insert "/**\n* Description.\n* @param\n* @return\n*/\n")
   (forward-line 1)
   (indent-region beg (point))))
+
+(defun jbyte/php-pretty-print()
+  "Custom function for inserting pre tags"
+  (interactive)
+  (let ((beg (point)))
+    (newline-and-indent)
+    (insert "\necho \"<pre>\";\necho \"</pre>\";")
+    (forward-line 1)
+    (indent-region beg (point))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
