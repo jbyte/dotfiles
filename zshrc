@@ -1,3 +1,25 @@
+### EXPORTS
+export TERM="xterm-256color"
+export EDITOR=/usr/bin/nvim
+export VISUAL=/usr/bin/nvim
+export ANDROID_HOME=/opt/android-sdk
+export DISPLAY=:0
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+export RUST_SRC_PATH=/usr/src/rust/src:~/project/browser/src
+export BROWSER=/usr/bin/firefox
+# add lavarel exe to path
+# TODO: find better place to have this
+export PATH=$PATH:~/.config/composer/vendor/bin/
+
+# add ruby/travis cli to path
+export PATH=$PATH:~/.gem/ruby/2.3.0/bin/
+
+# add racer to path
+export PATH=$PATH:~/.cargo/bin/
+
+# varable for spo svn server
+export SPO=svn://lalgec.fri.uni-lj.si/s63110350
+
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
@@ -21,14 +43,31 @@ bindkey -v
 
 ### ALIASES
 
+# openconnect
+alias oc="sudo openconnect --csd-user=jbyte --csd-wrapper=/home/jbyte/.cisco/csd-wrapper.sh"
+
+# steam
+alias steam="optirun wine ~/PlayOnLinux's virtual drives/skyrim/drive_c/Program\ Files/Steam/Steam.exe"
+
 # vim
 alias vi="nvim"
+
+# tor-browser
+alias tor-browser="cd ~/Downloads/tor-browser_en-US/; ./start-tor-browser.desktop; cd -;"
 
 # emacs
 alias em="emacsclient -c"
 
 # clear
 alias clr="clear"
+
+# aur
+aur() {
+    git clone "https://aur.archlinux.org/$1" ~/oth/aur/"$1";
+}
+aur-search() {
+    ~/aur-search.py "$1";
+}
 
 # listing
 alias ls="ls --color"
@@ -64,26 +103,6 @@ alias work="~/.work/work.sh"
 alias hudlajf="ssh pi@git.hudlajf.com"
 alias prod="ssh root@server.hudlajf.com"
 
-### EXPORTS
-export EDITOR=/usr/bin/nvim
-export VISUAL=/usr/bin/nvim
-export TERM=xterm-256color
-export ANDROID_HOME=/opt/android-sdk
-export DISPLAY=:0
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-export RUST_SRC_PATH=/usr/src/rust/src:~/project/browser/src
-# add lavarel exe to path
-# TODO: find better place to have this
-export PATH=$PATH:~/.config/composer/vendor/bin/
-
-# add ruby/travis cli to path
-export PATH=$PATH:~/.gem/ruby/2.3.0/bin/
-
-# add racer to path
-export PATH=$PATH:~/.cargo/bin/
-
-# varable for spo svn server
-export SPO=svn://lalgec.fri.uni-lj.si/s63110350
 
 #. /oth/powerline/powerline/powerline/bindings/zsh/powerline.zsh
 
@@ -92,7 +111,7 @@ POWERLEVEL9K_MODE='awesome-fontconfig'
 source ~/.powerlevel9k/powerlevel9k.zsh-theme
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs virtualenv)
 
 POWERLEVEL9K_SHOW_CHANGESET=true
 
