@@ -295,11 +295,14 @@ you should place your code here."
   (spacemacs/set-leader-keys
     "aoi" 'jbyte/find-todo)
 
-  ;; set keybinding for doc creation php-mode
-  (spacemacs/set-leader-keys-for-major-mode
-    "php-mode" "dc" 'jbyte/php-insert-doc)
+  ;; set keybinding for printing pre tags
   (spacemacs/set-leader-keys-for-major-mode
     "php-mode" "p" 'jbyte/php-pretty-print)
+  ;; set keybinding for toggling between php and web mode
+  (spacemacs/set-leader-keys-for-major-mode
+    "php-mode" "t" 'jbyte/toggle-php-web)
+  (spacemacs/set-leader-keys-for-major-mode
+    "web-mode" "t" 'jbyte/toggle-php-web)
 
   ;; setup custom todo keywords
   (setq org-todo-keywords '((sequence "TODO" "WAITING" "|" "CANCLED" "DONE")))
@@ -319,21 +322,6 @@ you should place your code here."
         engine/browser-function 'browse-url-generic
         browse-url-generic-program "firefox")
 
-  ;; set up the mu4e variables
-  (setq mu4e-maildir "~/Mail"
-        mu4e-trash-folder "/jaka.vute/[Gmail].Trash"
-        mu4e-drafts-folder "/jaka.vute/[Gmail].Drafts"
-        mu4e-sent-folder "/jaka.vute/[Gmail].Sent Mail"
-        mu4e-get-mail-command "offlineimap"
-        mu4e-update-interval 3600
-        mu4e-view-show-images t
-        mu4e-view-show-address t)
-
-  ;; mu4e notifications
-  (setq mu4e-enable-mode-line)
-  (setq mu4e-enable-notifications t)
-  (with-eval-after-load 'mu4e-alert
-    (mu4e-alert-set-default-style 'notifications))
   )
 
 
@@ -342,14 +330,15 @@ you should place your code here."
   (interactive)
   (find-file-existing "~/index.org"))
 
-(defun jbyte/php-insert-doc()
-  "Custom function for php doc generation"
+(defun jbyte/toggle-php-web()
+  "Custom function for toggling between php and web modes"
   (interactive)
-  (let ((beg (point)))
-  (insert "/**\n* Description.\n* @param\n* @return\n*/\n")
-  (forward-line 1)
-  (indent-region beg (point))))
+  (cond
+   ((string= major-mode "web-mode") (funcall (intern "php-mode")))
+   ((string= major-mode "php-mode") (funcall (intern "web-mode"))))
+  )
 
+;; TODO: make the function better
 (defun jbyte/php-pretty-print()
   "Custom function for inserting pre tags"
   (interactive)
